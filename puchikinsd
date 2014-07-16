@@ -1,0 +1,33 @@
+#!/bin/bash
+
+if [ $# -lt 3 ]
+then
+  echo 'Specify 3 arguments.'                                         >&2
+  echo ''                                                             >&2
+  echo 'Example:'                                                     >&2
+  echo '  puchikinsd /path/to/job.sh from@example.com to@example.com' >&2
+  exit 1
+fi
+
+while :
+do
+  if [ -f /tmp/puchikins-trigger ]
+  then
+    rm -f /tmp/puchikins-trigger
+    bash $1 > /tmp/puchikins-output 2>&1
+    RET=$?
+    if [ $RET -ne 0 ]
+    then
+      cat <<EOS | sendmail -t
+from: $2
+to: $3
+subject: puchikins error `date +%Y%m%d%H%M%S`
+
+$(cat /tmp/puchikins-output)
+
+EOS
+      rm -f /tmp/puchikins-output
+    fi
+  fi
+  sleep 1
+done

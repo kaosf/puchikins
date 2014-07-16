@@ -1,0 +1,11 @@
+PREFIX=
+
+all:
+
+install:
+	cp puchikinsd $(PREFIX)/bin/puchikinsd
+
+uninstall:
+	rm $(PREFIX)/bin/puchikinsd
+
+clean:

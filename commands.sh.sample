@@ -1,0 +1,5 @@
+git fetch origin master
+git checkout FETCH_HEAD
+
+echo OK
+exit 0

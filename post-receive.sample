@@ -1,0 +1,7 @@
+#!/bin/bash
+read _ _ REF
+BRANCH=`basename $REF`
+if [ $BRANCH = master ]
+then
+  touch /tmp/puchikins-trigger
+fi
